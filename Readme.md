@@ -6,7 +6,7 @@ Marktex permet de créer des documents PDF à partir de source écrite en Markdo
 Installation
 ============
 
-cd Markex
+cd Markex;
 sh install.sh
 
 Usage
@@ -14,12 +14,12 @@ Usage
 
 ## Création d'un document
 
-marktex --create <Nom du document>
+marktex --create `<Nom du document>`
 
 
 
 ## Compilation
-marktex <Nom du document>
+marktex `<Nom du document>`
 
 
 Exemple
@@ -31,6 +31,10 @@ Le fichier Exemple.md est créé s'il n'existait pas.
 
 Le fichier Exemple.tex est créé également.
 Vous pouvez modifier le titre du document et tout ce qui concerne le document dans ce fichier.
+
+marktex Exemple
+
+Le fichier Exemple.pdf est créé avec un sommaire et des liens cliquables.
 
 Dépendances
 ===========
