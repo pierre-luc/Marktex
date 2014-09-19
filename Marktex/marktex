@@ -1,0 +1,53 @@
+#!/bin/sh
+
+if test $# -eq 0; then
+	echo "Un nom de fichier doit être passé en argument. Ou l'option --create pour créer un nouveau document."
+	exit 0
+fi
+
+if [ "$1" = "--create" ]; then
+	if [ ! -f $2.md ]; then
+		touch $2.md
+	fi
+	cp /etc/Marktex/template.tex $2.tex
+	echo "\\input{$2.output.tex}\n\\end{document}\n" >> $2.tex
+	exit 1
+fi
+
+if [ ! -f $1 ]; then
+	echo "Le fichier $1 n'existe pas."
+	exit 0
+fi
+# Markdown to HTML
+echo "Markdown parsing..."
+
+filename=$(basename "$1")
+extension="${filename##*.}"
+filename="${filename%.*}"
+dirname=$(dirname "$1")
+
+cat $filename.md | perl /etc/Marktex/markdown.pl > $dirname/$filename.output.html
+
+# fix bug accented chars
+cat $dirname/$filename.output.html | php /etc/Marktex/fixchars.php $dirname/$filename.output.html
+
+# HTML to LaTeX
+echo "LaTeX generation..."
+(/etc/Marktex/html2latex-1.1/html2latex -class=report $dirname/$filename.output.html > /dev/null) 2> /dev/null
+
+# LaTeX to PDF
+echo "PDF generation..."
+(xelatex $dirname/$filename.tex > /dev/null) 2> /dev/null
+
+# re-generating to create the table of contents...
+(xelatex $dirname/$filename.tex > /dev/null) 2> /dev/null
+
+echo "END Generating"
+# Suppression des fichiers de génération
+
+rm $dirname/$filename.aux
+rm $dirname/$filename.toc
+rm $dirname/$filename.log
+rm $dirname/$filename.out
+rm $dirname/$filename.output.tex
+rm $dirname/$filename.output.html

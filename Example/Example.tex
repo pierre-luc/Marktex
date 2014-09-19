@@ -1,0 +1,37 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[latin1]{inputenc}
+\usepackage[francais]{babel}
+\usepackage{graphicx} % Pour les images.
+\usepackage[top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage[urlbordercolor={1 1 1},urlcolor=blue,colorlinks=true]{hyperref}
+
+\usepackage{fancyhdr}
+%\pagestyle{fancy}
+
+\fancypagestyle{myfancy}{
+  \renewcommand{\headrulewidth}{1pt}
+  \fancyhead[C]{Projet annuel} 
+  \fancyhead[L]{\scriptsize{BLOT Pierre-Luc, FIN Matthieu, COUSIN Alexandre}}
+  \fancyhead[R]{\scriptsize{L3 INFO}}
+
+  \renewcommand{\footrulewidth}{1pt}
+  \fancyfoot[C]{} 
+  \fancyfoot[L]{\scriptsize{\textbf{page \thepage}}}
+  \fancyfoot[R]{\scriptsize{06/05/14}}
+}
+\pagestyle{myfancy}
+
+
+\begin{document}
+
+  \title{Markdown to LaTeX}
+  \date{9 Sept. 2014}
+  
+  \maketitle
+
+  \renewcommand{\contentsname}{Sommaire}
+  \tableofcontents
+  \input{Example.output.tex}
+\end{document}
+
